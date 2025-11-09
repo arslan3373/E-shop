@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { adminAPI } from '../../utils/api';
 import { toast } from 'react-toastify';
 import { FiTrash2 } from 'react-icons/fi';
-
+import { useNavigate } from 'react-router-dom';
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +10,7 @@ const Users = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
-
+const navigate=useNavigate()
   const fetchUsers = async () => {
     try {
       const response = await adminAPI.getAllUsers();
@@ -47,36 +47,42 @@ const Users = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary-600"></div>
+        <div className="w-16 h-16 rounded-full border-t-2 border-b-2 animate-spin border-primary-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Manage Users</h1>
+    <div className="py-8 min-h-screen bg-gray-50">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <button 
+   onClick={() => navigate(-1)}
+    class="px-5 py-3 my-4 font-medium text-white rounded-lg shadow-md transition-all duration-300 bg-primary-600 hover:-translate-y-1"
+  >
+    ⬅ Back to Dashboard
+  </button>
+        <h1 className="mb-8 text-3xl font-bold text-gray-900">Manage Users</h1>
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="overflow-hidden bg-white rounded-lg shadow-md">
           <div className="overflow-x-auto">
             <table className="min-w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="text-left py-3 px-4">Name</th>
-                  <th className="text-left py-3 px-4">Email</th>
-                  <th className="text-left py-3 px-4">Phone</th>
-                  <th className="text-left py-3 px-4">Role</th>
-                  <th className="text-left py-3 px-4">Joined</th>
-                  <th className="text-left py-3 px-4">Actions</th>
+                  <th className="px-4 py-3 text-left">Name</th>
+                  <th className="px-4 py-3 text-left">Email</th>
+                  <th className="px-4 py-3 text-left">Phone</th>
+                  <th className="px-4 py-3 text-left">Role</th>
+                  <th className="px-4 py-3 text-left">Joined</th>
+                  <th className="px-4 py-3 text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
                   <tr key={user._id} className="border-b hover:bg-gray-50">
-                    <td className="py-3 px-4 font-semibold">{user.name}</td>
-                    <td className="py-3 px-4">{user.email}</td>
-                    <td className="py-3 px-4">{user.phone || 'N/A'}</td>
-                    <td className="py-3 px-4">
+                    <td className="px-4 py-3 font-semibold">{user.name}</td>
+                    <td className="px-4 py-3">{user.email}</td>
+                    <td className="px-4 py-3">{user.phone || 'N/A'}</td>
+                    <td className="px-4 py-3">
                       <select
                         value={user.role}
                         onChange={(e) => handleRoleChange(user._id, e.target.value)}
@@ -88,8 +94,8 @@ const Users = () => {
                         <option value="admin">Admin</option>
                       </select>
                     </td>
-                    <td className="py-3 px-4 text-sm">{new Date(user.createdAt).toLocaleDateString()}</td>
-                    <td className="py-3 px-4">
+                    <td className="px-4 py-3 text-sm">{new Date(user.createdAt).toLocaleDateString()}</td>
+                    <td className="px-4 py-3">
                       <button
                         onClick={() => handleDelete(user._id)}
                         disabled={user.role === 'admin'}

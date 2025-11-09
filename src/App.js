@@ -1,11 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-// Layouts
-import AnimatedLayout from './layouts/AnimatedLayout';
 
 // Components
 const Navbar = lazy(() => import('./components/Navbar'));
@@ -50,75 +46,73 @@ const AppContent = () => {
       )}
       
       <main className="flex-grow">
-        {/* <AnimatePresence mode="wait"> */}
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/faq" element={<FAQ />} />
-            
-            <Route path="/checkout" element={
-              <PrivateRoute>
-                <Checkout />
-              </PrivateRoute>
-            } />
-            
-            <Route path="/profile" element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            } />
-            
-            <Route path="/orders" element={
-              <PrivateRoute>
-                <Orders />
-              </PrivateRoute>
-            } />
-            
-            <Route path="/orders/:id" element={
-              <PrivateRoute>
-                <OrderDetail />
-              </PrivateRoute>
-            } />
-            
-            {/* Admin Routes */}
-            <Route path="/admin/dashboard" element={
-              <AdminRoute>
-                <AdminDashboard />
-              </AdminRoute>
-            } />
-            
-            <Route path="/admin/products/*" element={
-              <AdminRoute>
-                <AdminProducts />
-              </AdminRoute>
-            } />
-            
-            <Route path="/admin/orders/*" element={
-              <AdminRoute>
-                <AdminOrders />
-              </AdminRoute>
-            } />
-            
-            <Route path="/admin/users" element={
-              <AdminRoute>
-                <AdminUsers />
-              </AdminRoute>
-            } />
-            
-            <Route path="/admin/categories" element={
-              <AdminRoute>
-                <AdminCategories />
-              </AdminRoute>
-            } />
-          </Routes>
-        {/* </AnimatePresence> */}
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/faq" element={<FAQ />} />
+          
+          <Route path="/checkout" element={
+            <PrivateRoute>
+              <Checkout />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/profile" element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/orders" element={
+            <PrivateRoute>
+              <Orders />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/orders/:id" element={
+            <PrivateRoute>
+              <OrderDetail />
+            </PrivateRoute>
+          } />
+          
+          {/* Admin Routes */}
+          <Route path="/admin/dashboard" element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          } />
+          
+          <Route path="/admin/products/*" element={
+            <AdminRoute>
+              <AdminProducts />
+            </AdminRoute>
+          } />
+          
+          <Route path="/admin/orders/*" element={
+            <AdminRoute>
+              <AdminOrders />
+            </AdminRoute>
+          } />
+          
+          <Route path="/admin/users" element={
+            <AdminRoute>
+              <AdminUsers />
+            </AdminRoute>
+          } />
+          
+          <Route path="/admin/categories" element={
+            <AdminRoute>
+              <AdminCategories />
+            </AdminRoute>
+          } />
+        </Routes>
       </main>
 
       {!isAdminRoute && (
@@ -146,11 +140,9 @@ const AppContent = () => {
 function App() {
   return (
     <Router>
-      {/* <AnimatedLayout> */}
-        <Suspense fallback={<PageLoader />}>
-          <AppContent />
-        </Suspense>
-      {/* </AnimatedLayout> */}
+      <Suspense fallback={<PageLoader />}>
+        <AppContent />
+      </Suspense>
     </Router>
   );
 }

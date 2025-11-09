@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ordersAPI } from '../../utils/api';
 import { toast } from 'react-toastify';
-
+import { useNavigate } from 'react-router-dom';
 const Orders = () => {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -45,59 +46,65 @@ const Orders = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary-600"></div>
+        <div className="w-16 h-16 rounded-full border-t-2 border-b-2 animate-spin border-primary-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Manage Orders</h1>
+    <div className="py-8 min-h-screen bg-gray-50">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                 <button 
+   onClick={() => navigate(-1)}
+    class="px-5 py-3 my-4 font-medium text-white rounded-lg shadow-md transition-all duration-300 bg-primary-600 hover:-translate-y-1"
+  >
+    ⬅ Back to Dashboard
+  </button>
+        <h1 className="mb-8 text-3xl font-bold text-gray-900">Manage Orders</h1>
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="overflow-hidden bg-white rounded-lg shadow-md">
           <div className="overflow-x-auto">
             <table className="min-w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="text-left py-3 px-4">Order ID</th>
-                  <th className="text-left py-3 px-4">Customer</th>
-                  <th className="text-left py-3 px-4">Items</th>
-                  <th className="text-left py-3 px-4">Total</th>
-                  <th className="text-left py-3 px-4">Payment</th>
-                  <th className="text-left py-3 px-4">Status</th>
-                  <th className="text-left py-3 px-4">Date</th>
-                  <th className="text-left py-3 px-4">Actions</th>
+                  <th className="px-4 py-3 text-left">Order ID</th>
+                  <th className="px-4 py-3 text-left">Customer</th>
+                  <th className="px-4 py-3 text-left">Items</th>
+                  <th className="px-4 py-3 text-left">Total</th>
+                  <th className="px-4 py-3 text-left">Payment</th>
+                  <th className="px-4 py-3 text-left">Status</th>
+                  <th className="px-4 py-3 text-left">Date</th>
+                  <th className="px-4 py-3 text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {orders.map((order) => (
                   <tr key={order._id} className="border-b hover:bg-gray-50">
-                    <td className="py-3 px-4 font-mono text-sm">#{order._id.slice(-8)}</td>
-                    <td className="py-3 px-4">
+                    <td className="px-4 py-3 font-mono text-sm">#{order._id.slice(-8)}</td>
+                    <td className="px-4 py-3">
                       <div>
                         <p className="font-semibold">{order.user?.name}</p>
                         <p className="text-sm text-gray-600">{order.user?.email}</p>
                       </div>
                     </td>
-                    <td className="py-3 px-4">{order.orderItems.length}</td>
-                    <td className="py-3 px-4 font-semibold">${order.totalPrice.toFixed(2)}</td>
-                    <td className="py-3 px-4">
+                    <td className="px-4 py-3">{order.orderItems.length}</td>
+                    <td className="px-4 py-3 font-semibold">${order.totalPrice.toFixed(2)}</td>
+                    <td className="px-4 py-3">
                       <span className={`px-2 py-1 rounded-full text-xs ${order.isPaid ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'}`}>
                         {order.isPaid ? 'Paid' : 'Unpaid'}
                       </span>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="px-4 py-3">
                       <span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(order.status)}`}>
                         {order.status}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-sm">{new Date(order.createdAt).toLocaleDateString()}</td>
-                    <td className="py-3 px-4">
+                    <td className="px-4 py-3 text-sm">{new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td className="px-4 py-3">
                       <select
                         value={order.status}
                         onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                        className="px-2 py-1 border rounded text-sm"
+                        className="px-2 py-1 text-sm rounded border"
                       >
                         <option value="Pending">Pending</option>
                         <option value="Processing">Processing</option>
